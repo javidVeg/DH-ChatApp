@@ -1,9 +1,11 @@
 import React from 'react'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { auth } from '../../utils/firebase'
-import { redirect } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => { 
+
+  const navigate = useNavigate();
 
   const googleProvider = new GoogleAuthProvider();
 
@@ -11,6 +13,7 @@ const Register = () => {
     try{
       const result = await signInWithPopup(auth, googleProvider);
       console.log(result.user)
+      navigate("/home")
     } catch(error) {
       console.log("error")
     }

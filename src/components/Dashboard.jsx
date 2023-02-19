@@ -1,4 +1,5 @@
 import React from 'react'
+import MsgBoard from '../routes/MsgBoard';
 
 const Dashboard = ({user, loading, auth}) => {
     if(loading) return <h1>LOADING...</h1>;
@@ -6,6 +7,9 @@ const Dashboard = ({user, loading, auth}) => {
     <div>
         <h1>Welcome {user.displayName}</h1>
         <img src={user.photoURL}/>
+        <div>
+            <MsgBoard user={user}/>
+        </div>
         <button onClick={() => auth.signOut()}>Sign Out</button>
     </div>
   )
