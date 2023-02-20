@@ -37,12 +37,6 @@ const NewMsg = ({ user }) => {
                 </label>
                 <button type='submit'>Send</button>
             </form>
-            <div>
-                <p>{newMsg.userName}:</p>
-                <p>{newMsg.textField}</p>
-                <p>{newMsg.dataTimeGroup}</p>
-                <img src={newMsg.userAvatar} alt="avatar" />
-            </div>
         </div>
     )
 }

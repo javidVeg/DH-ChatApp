@@ -39,6 +39,7 @@ const MsgBoard = ({ user }) => {
 
     }, [])
     console.log(msgData)
+  
 
     const deleteMsg = async (id) => {
         try {
@@ -47,10 +48,9 @@ const MsgBoard = ({ user }) => {
             console.log(error)
         }
     }
+    console.log(user.uid)
+    console.log(msgData.userID)
 
-
-
-    // getMsgs()
 
 
     return (
@@ -59,7 +59,10 @@ const MsgBoard = ({ user }) => {
                 <div>
                     <img src={msg.userAvatar} />
                     <p>{msg.textField}</p>
-                    <button onClick={() => deleteMsg(msg.id)} className=' text-red-600'>X</button>
+                    {msg.userID === user.uid &&
+                        <button onClick={() => deleteMsg(msg.id)} className=' text-red-600'>X</button>
+                    }
+
                 </div>
             )}
             <NewMsg user={user} />
