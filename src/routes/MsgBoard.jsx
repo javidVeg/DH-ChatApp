@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import { collection, getDocs, doc, onSnapshot, query, where, orderBy, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from '../../utils/firebase'
 // import { useCollectionData } from 'react-firebase-hooks/firestore';
 import { FiEdit } from 'react-icons/fi';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { AiFillDelete } from 'react-icons/ai';
+
 
 import NewMsg from '../components/NewMsg';
 
@@ -13,8 +14,7 @@ const MsgBoard = ({ user }) => {
     const [msgData, setMsgData] = useState([])
     const [editMode, setEditMode] = useState(false)
     const [selectedMsg, setSelectedMsg] = useState()
-    const [msgBeingUpdated, setMsgBeingUpdated] = useState("")
-    // const [newUpdatedMsg, setNewUpdateMsg] = useState()
+    const [msgBeingUpdated, setMsgBeingUpdated] = useState("");
 
     const collectionRef = collection(db, "chat")
 
@@ -100,16 +100,16 @@ const MsgBoard = ({ user }) => {
 
 
     return (
-        <div className='flex flex-col gap-10'>
+        <div className='flex flex-col gap-5'>
             {msgData.map((msg) =>
-                <div className='flex flex-row justify-evenly items-center border-lime-500 border-solid border-2'>
-                    <div className='flex flex-row justify-center items-center gap-2 '>
+                <div className='flex flex-row justify-between px-2 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'>
+                    <div className='flex flex-row justify-center items-center'>
                         <img className=' rounded-xl scale-50' src={msg.userAvatar} />
                         <div className='flex flex-col items-start'>
-                            <div className='flex flex-row items-center gap-2'>
-                                <p>{msg.userName}</p>
-                                <p className=' text-sm'>{msg.createdAtDate}</p>
-                                <p className=' text-xs'>{msg.createdAtTime}</p>
+                            <div className='flex flex-row flex-wrap items-center gap-1'>
+                                <p className=' font-bold text-slate-300'>{msg.userName}</p>
+                                <p className=' text-[.7rem] font-medium'>{msg.createdAtDate}</p>
+                                <p className=' text-[.7rem] font-medium'>{msg.createdAtTime}</p>
                             </div>
                             {msg.id != selectedMsg && <p className=' text-[#00c3ff] font-semibold'>{msg.textField}</p>}
                             {editMode && msg.id === selectedMsg &&

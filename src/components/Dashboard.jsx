@@ -6,11 +6,11 @@ const Dashboard = ({user, loading, auth}) => {
   return (
     <div>
         <h1>Welcome {user.displayName}</h1>
+        <button onClick={() => auth.signOut()}>Sign Out</button>
         <img src={user.photoURL}/>
         <div>
             <MsgBoard user={user}/>
         </div>
-        <button onClick={() => auth.signOut()}>Sign Out</button>
     </div>
   )
 }
