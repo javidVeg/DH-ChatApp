@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { collection, getDocs, doc, onSnapshot, query, where, orderBy, deleteDoc } from "firebase/firestore";
+import { collection, getDocs, doc, onSnapshot, query, where, orderBy, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from '../../utils/firebase'
 import { useCollectionData } from 'react-firebase-hooks/firestore';
 import NewMsg from '../components/NewMsg';
@@ -10,7 +10,7 @@ const MsgBoard = ({ user }) => {
     const [editMode, setEditMode] = useState(false)
     const [selectedMsg, setSelectedMsg] = useState()
     const [msgBeingUpdated, setMsgBeingUpdated] = useState("")
-    const [newUpdatedMsg, setNewUpdateMsg] = useState()
+    // const [newUpdatedMsg, setNewUpdateMsg] = useState()
 
     const collectionRef = collection(db, "chat")
 
@@ -45,7 +45,7 @@ const MsgBoard = ({ user }) => {
     console.log(msgData)
 
 
-    const deleteMsg = async (id) => {
+    const deleteMsgDB = async (id) => {
         try {
             const remove = await deleteDoc(doc(db, "chat", id))
         } catch (error) {
@@ -53,7 +53,17 @@ const MsgBoard = ({ user }) => {
         }
     }
 
-    const editMsg = async (id, textField) => {
+
+    const updateMsgDB = async (id) => {
+        try {
+            const update = await updateDoc(doc(db, "chat", id), { textField: msgBeingUpdated })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+
+
+    const editMsg = (id, textField) => {
         setEditMode(true)
         setSelectedMsg(id)
         setMsgBeingUpdated(textField)
@@ -62,19 +72,24 @@ const MsgBoard = ({ user }) => {
     console.log(msgBeingUpdated)
 
 
-    const updateMsg = async (id) => {
+    const updateMsg = (id) => {
         setEditMode(false)
         setSelectedMsg()
-        console.log(editMode)
+        updateMsgDB(id);
+        // console.log(editMode)
+    }
+    const deleteMsg = (id) => {
+        deleteMsgDB(id)
+        setEditMode(false)
     }
 
     const handleUpdate = (e) => {
         setMsgBeingUpdated(e.target.value)
     }
 
-    useEffect(() => {
-        console.log(newUpdatedMsg)
-    }, [newUpdatedMsg])
+    // useEffect(() => {
+    //     console.log(newUpdatedMsg)
+    // }, [newUpdatedMsg])
 
 
 
@@ -87,13 +102,10 @@ const MsgBoard = ({ user }) => {
                     <img src={msg.userAvatar} />
                     {msg.id != selectedMsg && <p>{msg.textField}</p>}
                     {editMode && msg.id === selectedMsg &&
-                        <form>
-                            <label>
-                                msg:
-                                <input type="text" name="textfield"  value={msgBeingUpdated} onChange={handleUpdate} />
-                            </label>
-                            <button type='submit'>Send</button>
-                        </form>}
+                        <label>
+                            msg:
+                            <input type="text" name="textfield" value={msgBeingUpdated} onChange={handleUpdate} />
+                        </label>}
                     {editMode && msg.id === selectedMsg &&
                         <button onClick={() => deleteMsg(msg.id)} className=' text-red-600'>X</button>
                     }
