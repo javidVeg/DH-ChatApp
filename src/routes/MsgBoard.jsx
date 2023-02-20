@@ -7,6 +7,10 @@ import NewMsg from '../components/NewMsg';
 const MsgBoard = ({ user }) => {
 
     const [msgData, setMsgData] = useState([])
+    const [editMode, setEditMode] = useState(false)
+    const [selectedMsg, setSelectedMsg] = useState()
+    const [msgBeingUpdated, setMsgBeingUpdated] = useState("")
+    const [newUpdatedMsg, setNewUpdateMsg] = useState()
 
     const collectionRef = collection(db, "chat")
 
@@ -39,7 +43,7 @@ const MsgBoard = ({ user }) => {
 
     }, [])
     console.log(msgData)
-  
+
 
     const deleteMsg = async (id) => {
         try {
@@ -48,8 +52,31 @@ const MsgBoard = ({ user }) => {
             console.log(error)
         }
     }
-    console.log(user.uid)
-    console.log(msgData.userID)
+
+    const editMsg = async (id, textField) => {
+        setEditMode(true)
+        setSelectedMsg(id)
+        setMsgBeingUpdated(textField)
+    }
+    console.log(selectedMsg)
+    console.log(msgBeingUpdated)
+
+
+    const updateMsg = async (id) => {
+        setEditMode(false)
+        setSelectedMsg()
+        console.log(editMode)
+    }
+
+    const handleUpdate = (e) => {
+        setMsgBeingUpdated(e.target.value)
+    }
+
+    useEffect(() => {
+        console.log(newUpdatedMsg)
+    }, [newUpdatedMsg])
+
+
 
 
 
@@ -58,9 +85,23 @@ const MsgBoard = ({ user }) => {
             {msgData.map((msg) =>
                 <div>
                     <img src={msg.userAvatar} />
-                    <p>{msg.textField}</p>
-                    {msg.userID === user.uid &&
+                    {msg.id != selectedMsg && <p>{msg.textField}</p>}
+                    {editMode && msg.id === selectedMsg &&
+                        <form>
+                            <label>
+                                msg:
+                                <input type="text" name="textfield"  value={msgBeingUpdated} onChange={handleUpdate} />
+                            </label>
+                            <button type='submit'>Send</button>
+                        </form>}
+                    {editMode && msg.id === selectedMsg &&
                         <button onClick={() => deleteMsg(msg.id)} className=' text-red-600'>X</button>
+                    }
+                    {msg.userID === user.uid && !editMode &&
+                        <button onClick={() => editMsg(msg.id, msg.textField)}>Edit</button>
+                    }
+                    {editMode && msg.id === selectedMsg &&
+                        <button onClick={() => updateMsg(msg.id)}>Update</button>
                     }
 
                 </div>
