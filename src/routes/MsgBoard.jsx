@@ -96,13 +96,15 @@ const MsgBoard = ({ user }) => {
     // }, [newUpdatedMsg])
 
 
+    const sentMsg = 'flex flex-row justify-between px-2 items-center bg-white bg-opacity-30 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
+    const receivedMsg = 'flex flex-row justify-between px-2 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
 
-
+   
 
     return (
         <div className='flex flex-col gap-5'>
             {msgData.map((msg) =>
-                <div className='flex flex-row justify-between px-2 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'>
+                <div className={msg.userID === user.uid ? sentMsg : receivedMsg}>
                     <div className='flex flex-row justify-center items-center'>
                         <img className=' rounded-xl scale-50' src={msg.userAvatar} />
                         <div className='flex flex-col items-start'>
@@ -111,12 +113,11 @@ const MsgBoard = ({ user }) => {
                                 <p className=' text-[.7rem] font-medium'>{msg.createdAtDate}</p>
                                 <p className=' text-[.7rem] font-medium'>{msg.createdAtTime}</p>
                             </div>
-                            {msg.id != selectedMsg && <p className=' text-[#00c3ff] font-semibold'>{msg.textField}</p>}
+                            {msg.userID != selectedMsg && <p className=' text-[#00c3ff] font-semibold'>{msg.textField}</p>}
                             {editMode && msg.id === selectedMsg &&
-                                <label>
-                                    msg:
+                                
                                     <input type="text" name="textfield" value={msgBeingUpdated} onChange={handleUpdate} />
-                                </label>}
+                                }
                         </div>
                     </div>
                     <div className='flex flex-col justify-evenly items-center'>
