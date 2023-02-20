@@ -5,8 +5,6 @@ import { db } from '../../utils/firebase'
 import { FiEdit } from 'react-icons/fi';
 import { AiFillCheckCircle } from 'react-icons/ai';
 import { AiFillDelete } from 'react-icons/ai';
-
-
 import NewMsg from '../components/NewMsg';
 
 const MsgBoard = ({ user }) => {
@@ -15,6 +13,8 @@ const MsgBoard = ({ user }) => {
     const [editMode, setEditMode] = useState(false)
     const [selectedMsg, setSelectedMsg] = useState()
     const [msgBeingUpdated, setMsgBeingUpdated] = useState("");
+
+    const scrollToRef = useRef();
 
     const collectionRef = collection(db, "chat")
 
@@ -27,8 +27,14 @@ const MsgBoard = ({ user }) => {
             })
             setMsgData(messages)
         });
+        
         return () => watchForNewData();
+        
     }, [])
+
+    useEffect(() => {
+        scrollToRef.current.scrollIntoView({ behavior: "smooth" })
+    },[msgData])
 
     useEffect(() => {
         const getMsgs = async () => {
@@ -44,6 +50,7 @@ const MsgBoard = ({ user }) => {
             }
         }
         getMsgs();
+        scrollToRef.current.scrollIntoView({ behavior: "smooth" })
 
     }, [])
     console.log(msgData)
@@ -96,13 +103,13 @@ const MsgBoard = ({ user }) => {
     // }, [newUpdatedMsg])
 
 
-    const sentMsg = 'flex flex-row justify-between px-2 items-center bg-white bg-opacity-30 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
-    const receivedMsg = 'flex flex-row justify-between px-2 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
+    const sentMsg = 'flex flex-row justify-between px-2 relative left-10  items-center bg-white bg-opacity-30 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
+    const receivedMsg = 'flex flex-row justify-between px-2 relative right-10 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
 
-   
+
 
     return (
-        <div className='flex flex-col gap-5'>
+        <div className='flex flex-col  gap-5 w-3/4'>
             {msgData.map((msg) =>
                 <div className={msg.userID === user.uid ? sentMsg : receivedMsg}>
                     <div className='flex flex-row justify-center items-center'>
@@ -115,14 +122,14 @@ const MsgBoard = ({ user }) => {
                             </div>
                             {msg.userID != selectedMsg && <p className=' text-[#00c3ff] font-semibold'>{msg.textField}</p>}
                             {editMode && msg.id === selectedMsg &&
-                                
-                                    <input type="text" name="textfield" value={msgBeingUpdated} onChange={handleUpdate} />
-                                }
+
+                                <input type="text" name="textfield" value={msgBeingUpdated} onChange={handleUpdate} />
+                            }
                         </div>
                     </div>
                     <div className='flex flex-col justify-evenly items-center'>
                         {editMode && msg.id === selectedMsg &&
-                            <button onClick={() => deleteMsg(msg.id)} className=' text-purple-600'><AiFillDelete/></button>
+                            <button onClick={() => deleteMsg(msg.id)} className=' text-purple-600'><AiFillDelete /></button>
                         }
                         {msg.userID === user.uid && !editMode &&
                             <button onClick={() => editMsg(msg.id, msg.textField)} className=' text-purple-600'><FiEdit /></button>
@@ -134,7 +141,9 @@ const MsgBoard = ({ user }) => {
 
                 </div>
             )}
-            <NewMsg user={user} />
+            <div ref={scrollToRef}>
+                <NewMsg user={user} />
+            </div>
 
         </div>
     )

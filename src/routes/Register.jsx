@@ -2,25 +2,31 @@ import React from 'react'
 import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { auth } from '../../utils/firebase'
 import { useNavigate } from 'react-router-dom';
+import { FcGoogle } from 'react-icons/fc';
+import dhlogo from "../assets/dh-logo.svg"
 
-const Register = () => { 
+const Register = () => {
 
   const navigate = useNavigate();
 
   const googleProvider = new GoogleAuthProvider();
 
   const GoogleLogin = async () => {
-    try{
+    try {
       const result = await signInWithPopup(auth, googleProvider);
       console.log(result.user)
       navigate("/home")
-    } catch(error) {
+    } catch (error) {
       console.log("error")
     }
   }
   return (
-    <div>
-     <button onClick={GoogleLogin}>Sign in with Google</button>
+    <div className=' flex flex-col justify-center items-center text-center gap-5'>
+      <img src={dhlogo}></img>
+      <h1 className=' font-[Poppins] font-[600]'>Welcome to the Decoded Health ChatApp</h1>
+      <button className='flex flex-row items-center bg-transparent hover:bg-[#18DBFF] text-pink-700 font-semibold
+      hover:text-black py-2 px-4 border border-[#18DBFF] hover:shadow-[0_1px_8px_2px] hover:shadow-[rgb(190_24_93)]
+       hover:border-transparent rounded' onClick={GoogleLogin}>Sign in with Google &nbsp; <FcGoogle size={20} /></button>
     </div>
   )
 }

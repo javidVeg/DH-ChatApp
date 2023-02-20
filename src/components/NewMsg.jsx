@@ -15,9 +15,9 @@ const NewMsg = ({ user }) => {
     const date = dateTime.toLocaleDateString();
     const time = dateTime.toLocaleTimeString();
 
-    useEffect(() => {
-        console.log(newMsg)
-    }, [newMsg])
+    // useEffect(() => {
+    //     console.log(newMsg)
+    // }, [newMsg])
 
     const handleSubmit = async (e) => {
         e.preventDefault();
