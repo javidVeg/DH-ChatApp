@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { collection, getDocs, doc, onSnapshot, query, where, orderBy, deleteDoc, updateDoc } from "firebase/firestore";
 import { db } from '../../utils/firebase'
-import { useCollectionData } from 'react-firebase-hooks/firestore';
+// import { useCollectionData } from 'react-firebase-hooks/firestore';
+import { FiEdit } from 'react-icons/fi';
+import { AiFillCheckCircle } from 'react-icons/ai';
+import { AiFillDelete } from 'react-icons/ai';
+
 import NewMsg from '../components/NewMsg';
 
 const MsgBoard = ({ user }) => {
@@ -96,25 +100,36 @@ const MsgBoard = ({ user }) => {
 
 
     return (
-        <div>
+        <div className='flex flex-col gap-10'>
             {msgData.map((msg) =>
-                <div>
-                    <img src={msg.userAvatar} />
-                    {msg.id != selectedMsg && <p>{msg.textField}</p>}
-                    {editMode && msg.id === selectedMsg &&
-                        <label>
-                            msg:
-                            <input type="text" name="textfield" value={msgBeingUpdated} onChange={handleUpdate} />
-                        </label>}
-                    {editMode && msg.id === selectedMsg &&
-                        <button onClick={() => deleteMsg(msg.id)} className=' text-red-600'>X</button>
-                    }
-                    {msg.userID === user.uid && !editMode &&
-                        <button onClick={() => editMsg(msg.id, msg.textField)}>Edit</button>
-                    }
-                    {editMode && msg.id === selectedMsg &&
-                        <button onClick={() => updateMsg(msg.id)}>Update</button>
-                    }
+                <div className='flex flex-row justify-evenly items-center border-lime-500 border-solid border-2'>
+                    <div className='flex flex-row justify-center items-center gap-2 '>
+                        <img className=' rounded-xl scale-50' src={msg.userAvatar} />
+                        <div className='flex flex-col items-start'>
+                            <div className='flex flex-row items-center gap-2'>
+                                <p>{msg.userName}</p>
+                                <p className=' text-sm'>{msg.createdAtDate}</p>
+                                <p className=' text-xs'>{msg.createdAtTime}</p>
+                            </div>
+                            {msg.id != selectedMsg && <p className=' text-[#00c3ff] font-semibold'>{msg.textField}</p>}
+                            {editMode && msg.id === selectedMsg &&
+                                <label>
+                                    msg:
+                                    <input type="text" name="textfield" value={msgBeingUpdated} onChange={handleUpdate} />
+                                </label>}
+                        </div>
+                    </div>
+                    <div className='flex flex-col justify-evenly items-center'>
+                        {editMode && msg.id === selectedMsg &&
+                            <button onClick={() => deleteMsg(msg.id)} className=' text-purple-600'><AiFillDelete/></button>
+                        }
+                        {msg.userID === user.uid && !editMode &&
+                            <button onClick={() => editMsg(msg.id, msg.textField)} className=' text-purple-600'><FiEdit /></button>
+                        }
+                        {editMode && msg.id === selectedMsg &&
+                            <button onClick={() => updateMsg(msg.id)} className=' text-purple-600' ><AiFillCheckCircle /></button>
+                        }
+                    </div>
 
                 </div>
             )}

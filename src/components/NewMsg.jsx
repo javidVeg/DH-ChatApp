@@ -11,7 +11,7 @@ const NewMsg = ({ user }) => {
     const dateTime = new Date();
     const date = dateTime.toLocaleDateString();
     const time = dateTime.toLocaleTimeString();
-
+    
     useEffect(() => {
         console.log(newMsg)
     }, [newMsg])
@@ -22,6 +22,8 @@ const NewMsg = ({ user }) => {
             textField: newMsg,
             userID: user.uid,
             userName: user.displayName,
+            createdAtDate: date,
+            createdAtTime: time,
             dataTimeGroup: serverTimestamp(),
             userAvatar: user.photoURL
         })
