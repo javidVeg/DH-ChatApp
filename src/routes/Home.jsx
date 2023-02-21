@@ -13,7 +13,7 @@ const Home = () => {
         <>
             <div >
                 {!user && (
-                    <div className=' place-items-center'>
+                    <div className=''>
                     <Register />
                     </div>
                 )}

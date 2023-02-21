@@ -32,9 +32,10 @@ const MsgBoard = ({ user }) => {
                 messages.push({ ...doc.data(), id: doc.id })
             })
             setMsgData(messages)
+            scrollToRef.current.scrollIntoView({ behavior: "smooth" })
         });
 
-        scrollToRef.current.scrollIntoView({ behavior: "smooth" })
+        
         return () => watchForNewData();
 
     }, [])
@@ -106,13 +107,13 @@ const MsgBoard = ({ user }) => {
 
 
     //! variables with Tailwind styling depending if the msg was received or sent ⤵
-    const receivedMsg = ' flex flex-row justify-between px-2 relative left-10  items-center bg-white bg-opacity-30 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
-    const sentMsg = 'flex flex-row justify-between px-2 relative right-10 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
+    const receivedMsg = ' w-[60%]  flex flex-row justify-between px-2 relative left-20  items-center bg-white bg-opacity-30 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
+    const sentMsg = ' w-[60%]  flex flex-row justify-between px-2 relative right-20 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
 
 
 
     return (
-        <div className='flex flex-col  gap-5 w-3/4'>
+        <div className='flex flex-col justify-center items-center relative min-h-[100vh] w-screen gap-5 mb-28'>
             {/* __Maps through the MsgData state__ */}
             {msgData.map((msg) =>
                 // Sets styling depending on if msg was sent or received by comparing id's
@@ -158,9 +159,10 @@ const MsgBoard = ({ user }) => {
                 </div>
             )}
 
-            <div className='mt-1 sticky bottom-5'>
+            <div className='mt-1 fixed w-3/4 bottom-0 mb-10 '>
                 <NewMsg user={user} />
             </div>
+
             {/* __Smooth scrolls the window to here using ref__ */}
             <div ref={scrollToRef} ></div>
         </div>
