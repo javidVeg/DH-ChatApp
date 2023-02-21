@@ -11,9 +11,11 @@ const Home = () => {
     const [user, loading] = useAuthState(auth)
     return (
         <>
-            <div>
+            <div >
                 {!user && (
+                    <div className=' place-items-center'>
                     <Register />
+                    </div>
                 )}
                 {user && (
                     <div className='relative h-[100%]'>
