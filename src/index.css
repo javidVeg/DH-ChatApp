@@ -60,4 +60,12 @@ input{
 	-moz-appearance: none;
 	appearance: none;
 }
+textarea{
+  padding: 0;
+	background: rgba(255, 255, 255, 0.030);
+	outline: none;
+	-webkit-appearance: none;
+	-moz-appearance: none;
+	appearance: none;
+}
 

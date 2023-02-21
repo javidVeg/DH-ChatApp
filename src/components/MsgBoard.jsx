@@ -18,6 +18,7 @@ const MsgBoard = ({ user }) => {
 
     //! ref for where to scroll to on page load ⤵
     const scrollToRef = useRef();
+    const textAreaRef = useRef(null);
 
     const collectionRef = collection(db, "chat") //! Fire store ref to collection
 
@@ -35,7 +36,7 @@ const MsgBoard = ({ user }) => {
             scrollToRef.current.scrollIntoView({ behavior: "smooth" })
         });
 
-        
+
         return () => watchForNewData();
 
     }, [])
@@ -107,10 +108,22 @@ const MsgBoard = ({ user }) => {
 
 
     //! variables with Tailwind styling depending if the msg was received or sent ⤵
-    const receivedMsg = ' w-[60%]  flex flex-row justify-between px-2 relative left-20  items-center bg-white bg-opacity-30 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
-    const sentMsg = ' w-[60%]  flex flex-row justify-between px-2 relative right-20 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
+    const receivedMsg = ' w-[60%] h-auto flex flex-row justify-between relative left-16 md:left-20  items-center bg-white bg-opacity-30 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
+    const sentMsg = ' w-[60%] h-auto flex flex-row justify-between relative right-16 md:right-20 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
 
 
+
+
+    //! this is used to add height to the textarea based on the scroll height⤵
+    useEffect(() => {
+        const textarea = textAreaRef.current;
+        if (textarea) {
+            textarea.style.height = 'auto'; //!reset height to auto
+            textarea.style.height = textarea.scrollHeight + 'px'; //! set height to fit the content 
+        }
+    }, [textAreaRef.current?.value]);
+
+    console.log("Created by Decoded Healths next Developer 😜")
 
     return (
         <div className='flex flex-col justify-center items-center relative min-h-[100vh] w-screen gap-5 mb-28'>
@@ -118,42 +131,49 @@ const MsgBoard = ({ user }) => {
             {msgData.map((msg) =>
                 // Sets styling depending on if msg was sent or received by comparing id's
                 <div key={msg.id} className={msg.userID === user.uid ? sentMsg : receivedMsg}>
-                    <div className='flex flex-row justify-center items-center h-auto py-3'>
-                        <img className=' rounded-xl scale-50' src={msg.userAvatar} />
-                        <div className='flex flex-col items-start'>
+                    <div className='flex flex-row justify-center items-center h-auto w-full pr-3 py-3'>
+                  
+                            <img className='rounded-xl scale-50 ' src={msg.userAvatar} />
+                        
+                        <div className='flex flex-col items-start w-full'>
                             <div className='flex flex-row flex-wrap items-center gap-1'>
-                                <p className=' font-bold '>{msg.userName}</p>
-                                <p className=' text-[.7rem] text-slate-300 font-medium'>{msg.createdAtDate}</p>
-                                <p className=' text-[.7rem] text-slate-300 font-medium'>{msg.createdAtTime}</p>
+                                <p className=' font-semibold text-sm md:font-bold text-left w-full md:w-auto '>{msg.userName}</p>
+                                <p className=' text-[.5rem] md:text-[.7rem] text-slate-300 font-medium'>{msg.createdAtDate}</p>
+                                <p className='text-[.5rem] md:text-[.7rem] text-slate-300 font-medium'>{msg.createdAtTime}</p>
                             </div>
                             {/* if the msg id and user id match and editMode is true then it renders input field to edit,
                             if conditions aren't met then it shows the textField data */}
                             {editMode && msg.id === selectedMsg ? (
-                                <input
-                                    className="rounded-md bg-[#00000026] p-1 pl-2"
-                                    type="text"
-                                    name="textfield"
-                                    value={msgBeingUpdated || msg.textField}
-                                    onChange={handleUpdate}
-                                />
+                                <div className='w-full mt-2'>
+                                    <textarea
+                                        ref={textAreaRef}
+                                        className="rounded-md bg-[#00000026] p-1 pl-2 h-auto w-full overflow-hidden resize-none focus:border-none"
+                                        type="text"
+                                        name="textfield"
+                                        value={msgBeingUpdated || msg.textField}
+                                        onChange={handleUpdate}
+                                    ></textarea>
+                                </div>
                             ) : (
-                                <p className='text-[#00c3ff] font-semibold text-left '>{msg.textField}</p>
+                                <p className='text-[#00c3ff] font-semibold text-left text-sm md:text-md '>{msg.textField}</p>
                             )}
                         </div>
                     </div>
-                    <div className='flex flex-col justify-evenly items-center pr-5'>
+                    <div className='absolute -right-10 '>
                         {/* if editMode is false and msg USER id = USER uid then this will render the ability to edit msg */}
                         {msg.userID === user.uid && !editMode &&
                             <button onClick={() => editMsg(msg.id, msg.textField)} className=' text-white'><FiEdit size={20} /></button>
                         }
-                        {/* if editMode is true and msg id = selectedMsg id then it will allow user to delete */}
-                        {editMode && msg.id === selectedMsg &&
-                            <button onClick={() => deleteMsg(msg.id)} className=' text-white'><AiFillDelete size={20} /></button>
-                        }
-                        {/* if editMode is true and msg id = selectedMsg id then it will allow user to send updates to fire store */}
-                        {editMode && msg.id === selectedMsg &&
-                            <button onClick={() => updateMsg(msg.id)} className=' text-green-300 ' ><AiFillCheckCircle size={20} /></button>
-                        }
+                        <div className='flex flex-col'>
+                            {/* if editMode is true and msg id = selectedMsg id then it will allow user to delete */}
+                            {editMode && msg.id === selectedMsg &&
+                                <button onClick={() => deleteMsg(msg.id)} className=' text-white'><AiFillDelete size={20} /></button>
+                            }
+                            {/* if editMode is true and msg id = selectedMsg id then it will allow user to send updates to fire store */}
+                            {editMode && msg.id === selectedMsg &&
+                                <button onClick={() => updateMsg(msg.id)} className=' text-green-300 ' ><AiFillCheckCircle size={20} /></button>
+                            }
+                        </div>
                     </div>
 
                 </div>
