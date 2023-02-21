@@ -44,24 +44,24 @@ const MsgBoard = ({ user }) => {
         scrollToRef.current.scrollIntoView({ behavior: "smooth" })
     }, [msgData])
 
-    //! This useEffect gets fire store data on initial load ⤵
-    useEffect(() => {
-        const getMsgs = async () => {
-            try {
-                const items = await getDocs(collectionRef)
-                const getItem = items.docs.map((doc) => ({
-                    ...doc.data(),
-                    id: doc.id
-                }))
-                setMsgData(getItem)
-            } catch (error) {
-                console.log(error)
-            }
-        }
-        getMsgs();
-        //! Smooth scrolls the window to the ref in the html on initial load ⤵
-        scrollToRef.current.scrollIntoView({ behavior: "smooth" })
-    }, [])
+    // //! This useEffect gets fire store data on initial load ⤵
+    // useEffect(() => {
+    //     const getMsgs = async () => {
+    //         try {
+    //             const items = await getDocs(collectionRef)
+    //             const getItem = items.docs.map((doc) => ({
+    //                 ...doc.data(),
+    //                 id: doc.id
+    //             }))
+    //             setMsgData(getItem)
+    //         } catch (error) {
+    //             console.log(error)
+    //         }
+    //     }
+    //     getMsgs();
+    //     //! Smooth scrolls the window to the ref in the html on initial load ⤵
+    //     scrollToRef.current.scrollIntoView({ behavior: "smooth" })
+    // }, [])
 
     //! Function that deletes documents from the DB ⤵
     const deleteMsgDB = async (id) => {
