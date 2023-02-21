@@ -1,5 +1,5 @@
 import React from 'react'
-import MsgBoard from '../routes/MsgBoard';
+import MsgBoard from './MsgBoard';
 import Navbar from './Navbar';
 
 const Dashboard = ({ user, loading, auth }) => {

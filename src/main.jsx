@@ -4,34 +4,17 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import Root from "./routes/Root";
-import ErrorPage from "./ErrorPage";
-import App from './App'
-import Register from './routes/Register';
-import './index.css'
-import SignIn from './routes/SignIn';
+import ErrorPage from "./routes/ErrorPage";
 import Home from './routes/Home';
+import './index.css'
 
-
+//! React Router uses a new way to redirect routes but since everything is rendered from <Home/>
+//! we don't need to make this anymore difficult by adding children to the route.
 const router = createBrowserRouter([
   {
     path: "/",
-    element:<Root/>,
+    element: <Home/>,
     errorElement:<ErrorPage />,
-    children: [
-      {
-        path: "/home",
-        element: <Home/>,
-      },
-      {
-        path: "/register",
-        element: <Register/>,
-      },
-      {
-        path: "/signin",
-        element: <SignIn/>,
-      },
-    ],
   },
  
 ]);
