@@ -27,14 +27,14 @@ const MsgBoard = ({ user }) => {
             })
             setMsgData(messages)
         });
-        
+        scrollToRef.current.scrollIntoView({ behavior: "smooth" })
         return () => watchForNewData();
-        
+
     }, [])
 
     useEffect(() => {
         scrollToRef.current.scrollIntoView({ behavior: "smooth" })
-    },[msgData])
+    }, [msgData])
 
     useEffect(() => {
         const getMsgs = async () => {
@@ -103,8 +103,8 @@ const MsgBoard = ({ user }) => {
     // }, [newUpdatedMsg])
 
 
-    const sentMsg = 'flex flex-row justify-between px-2 relative left-10  items-center bg-white bg-opacity-30 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
-    const receivedMsg = 'flex flex-row justify-between px-2 relative right-10 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
+    const receivedMsg = ' flex flex-row justify-between px-2 relative left-10  items-center bg-white bg-opacity-30 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
+    const sentMsg = 'flex flex-row justify-between px-2 relative right-10 items-center bg-white bg-opacity-10 rounded-md shadow-[#eb459526] shadow-[0px_2px_10px_2px] border-[#ffffff2c] border-solid border-[.01rem]'
 
 
 
@@ -116,32 +116,39 @@ const MsgBoard = ({ user }) => {
                         <img className=' rounded-xl scale-50' src={msg.userAvatar} />
                         <div className='flex flex-col items-start'>
                             <div className='flex flex-row flex-wrap items-center gap-1'>
-                                <p className=' font-bold text-slate-300'>{msg.userName}</p>
-                                <p className=' text-[.7rem] font-medium'>{msg.createdAtDate}</p>
-                                <p className=' text-[.7rem] font-medium'>{msg.createdAtTime}</p>
+                                <p className=' font-bold '>{msg.userName}</p>
+                                <p className=' text-[.7rem] text-slate-300 font-medium'>{msg.createdAtDate}</p>
+                                <p className=' text-[.7rem] text-slate-300 font-medium'>{msg.createdAtTime}</p>
                             </div>
-                            {msg.userID != selectedMsg && <p className=' text-[#00c3ff] font-semibold'>{msg.textField}</p>}
-                            {editMode && msg.id === selectedMsg &&
-
-                                <input type="text" name="textfield" value={msgBeingUpdated} onChange={handleUpdate} />
-                            }
+                            {editMode && msg.id === selectedMsg ? (
+                                <input
+                                    className="rounded-md bg-[#00000026] p-1 pl-2"
+                                    type="text"
+                                    name="textfield"
+                                    value={msgBeingUpdated || msg.textField}
+                                    onChange={handleUpdate}
+                                />
+                            ) : (
+                                <p className='text-[#00c3ff] font-semibold'>{msg.textField}</p>
+                            )}
                         </div>
                     </div>
-                    <div className='flex flex-col justify-evenly items-center'>
+                    <div className='flex flex-col justify-evenly items-center pr-5'>
                         {editMode && msg.id === selectedMsg &&
-                            <button onClick={() => deleteMsg(msg.id)} className=' text-purple-600'><AiFillDelete /></button>
+                            <button onClick={() => deleteMsg(msg.id)} className=' text-white'><AiFillDelete size={20} /></button>
                         }
                         {msg.userID === user.uid && !editMode &&
-                            <button onClick={() => editMsg(msg.id, msg.textField)} className=' text-purple-600'><FiEdit /></button>
+                            <button onClick={() => editMsg(msg.id, msg.textField)} className=' text-white'><FiEdit size={20} /></button>
                         }
                         {editMode && msg.id === selectedMsg &&
-                            <button onClick={() => updateMsg(msg.id)} className=' text-purple-600' ><AiFillCheckCircle /></button>
+                            <button onClick={() => updateMsg(msg.id)} className=' text-green-300 ' ><AiFillCheckCircle size={20} /></button>
                         }
                     </div>
 
                 </div>
             )}
-            <div ref={scrollToRef}>
+            <div ref={scrollToRef} ></div>
+            <div className='mt-1 sticky bottom-5'>
                 <NewMsg user={user} />
             </div>
 
