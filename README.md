@@ -36,7 +36,7 @@ npm run dev
 
 
 ## Credits
-This chat app was created by David Martinez ( https://dev-idcodes.com )
+This chat app was created by [David Martinez](https://dev-idcodes.com) 🥷🏼
 
 ## License
 
