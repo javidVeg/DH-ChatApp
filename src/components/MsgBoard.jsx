@@ -34,7 +34,7 @@ const MsgBoard = ({ user }) => {
             setMsgData(messages)
         });
 
-
+        scrollToRef.current.scrollIntoView({ behavior: "smooth" })
         return () => watchForNewData();
 
     }, [])
