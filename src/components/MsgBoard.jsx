@@ -116,7 +116,7 @@ const MsgBoard = ({ user }) => {
             {/* __Maps through the MsgData state__ */}
             {msgData.map((msg) =>
                 // Sets styling depending on if msg was sent or received by comparing id's
-                <div className={msg.userID === user.uid ? sentMsg : receivedMsg}>
+                <div key={msg.id} className={msg.userID === user.uid ? sentMsg : receivedMsg}>
                     <div className='flex flex-row justify-center items-center'>
                         <img className=' rounded-xl scale-50' src={msg.userAvatar} />
                         <div className='flex flex-col items-start'>
