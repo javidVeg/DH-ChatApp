@@ -117,7 +117,7 @@ const MsgBoard = ({ user }) => {
             {msgData.map((msg) =>
                 // Sets styling depending on if msg was sent or received by comparing id's
                 <div key={msg.id} className={msg.userID === user.uid ? sentMsg : receivedMsg}>
-                    <div className='flex flex-row justify-center items-center'>
+                    <div className='flex flex-row justify-center items-center h-auto py-3'>
                         <img className=' rounded-xl scale-50' src={msg.userAvatar} />
                         <div className='flex flex-col items-start'>
                             <div className='flex flex-row flex-wrap items-center gap-1'>
@@ -136,7 +136,7 @@ const MsgBoard = ({ user }) => {
                                     onChange={handleUpdate}
                                 />
                             ) : (
-                                <p className='text-[#00c3ff] font-semibold'>{msg.textField}</p>
+                                <p className='text-[#00c3ff] font-semibold text-left '>{msg.textField}</p>
                             )}
                         </div>
                     </div>
