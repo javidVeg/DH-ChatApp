@@ -3,6 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../../utils/firebase'
 import Dashboard from '../components/Dashboard'
 import Register from '../components/Register'
+import { Analytics } from '@vercel/analytics/react';
 
 
 const Home = () => {
@@ -24,6 +25,7 @@ const Home = () => {
                     </div>
                 )}
             </div>
+            <Analytics />
         </>
     )
 }

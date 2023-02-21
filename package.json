@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@vercel/analytics": "^0.1.10",
     "dotenv": "^16.0.3",
     "firebase": "^9.17.1",
     "localforage": "^1.10.0",
