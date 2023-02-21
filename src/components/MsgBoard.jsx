@@ -157,12 +157,12 @@ const MsgBoard = ({ user }) => {
 
                 </div>
             )}
-            {/* __Smooth scrolls the window to here using ref__ */}
-            <div ref={scrollToRef} ></div>
+
             <div className='mt-1 sticky bottom-5'>
                 <NewMsg user={user} />
             </div>
-
+            {/* __Smooth scrolls the window to here using ref__ */}
+            <div ref={scrollToRef} ></div>
         </div>
     )
 }
