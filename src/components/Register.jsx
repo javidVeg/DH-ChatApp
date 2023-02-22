@@ -19,7 +19,7 @@ const Register = () => {
   }
 
   return (
-    <div className='flex flex-col justify-center items-center text-center gap-5'>
+    <div className='flex flex-col justify-center items-center text-center gap-5 p-2'>
       <img src={dhlogo}></img>
       <h1 className=' font-[Poppins] font-[600]'>Welcome to the Decoded Health ChatApp</h1>
       <button className='flex flex-row items-center bg-transparent hover:bg-[#18DBFF] text-pink-700 font-semibold

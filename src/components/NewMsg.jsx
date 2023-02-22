@@ -32,7 +32,7 @@ const NewMsg = ({ user }) => {
         setNewMsg('')
 
         //! Smooth scrolls the window to the ref in the html when new doc is add to fire store  ⤵
-        scrollToRef.current.scrollIntoView({ behavior: "smooth" })
+       
     }
     return (
         <div className='flex flex-row justify-center items-center rounded-md bg-[#28283e] shadow-lg shadow-[#00000080] p-10 h-20'>

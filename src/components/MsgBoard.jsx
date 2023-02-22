@@ -33,11 +33,11 @@ const MsgBoard = ({ user }) => {
                 messages.push({ ...doc.data(), id: doc.id })
             })
             setMsgData(messages)
-            scrollToRef.current.scrollIntoView({ behavior: "smooth" })
+            
         });
 
 
-        return () => watchForNewData();
+        return () => watchForNewData() && scrollToRef.current.scrollIntoView({ behavior: "smooth" })
 
     }, [])
 
